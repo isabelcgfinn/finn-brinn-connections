@@ -1,11 +1,21 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Encode_Sans, Gloock } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const encodeSans = Encode_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-encode-sans",
+});
+
+const gloock = Gloock({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-gloock",
+});
 
 export const metadata: Metadata = {
-  title: "Connections",
+  title: "Finn Brinn Connections",
   description: "Group four groups of four!",
 };
 
@@ -15,8 +25,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" className={`${encodeSans.variable} ${gloock.variable}`}>
+      <body className="font-body bg-wedding-deepRed text-wedding-blush">
+        {children}
+      </body>
     </html>
   );
 }

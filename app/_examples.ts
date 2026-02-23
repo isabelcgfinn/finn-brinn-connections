@@ -2,23 +2,23 @@ import { Category } from "./_types";
 
 export const categories: Category[] = [
   {
-    category: 'ENCOURAGE, WITH "ON"',
-    items: ["EGG", "GOAD", "SPUR", "URGE"],
+    category: "GARETH & ISABEL'S TEAM MASCOTS",
+    items: ["T-REX", "SWAN", "RED DRAGON", "BUCKET HAT"],
     level: 1,
   },
   {
-    category: "SPHERICAL FOODS",
-    items: ["JAWBREAKER", "MEATBALL", "MOZZARELLA", "ORANGE"],
+    category: "GARETH'S PET NAMES FOR ISABEL",
+    items: ["POTATO", "SAUSAGE", "SHITHEAD", "LOBSTER"],
     level: 2,
   },
   {
-    category: "GROCERY STORE AISLES",
-    items: ["DAIRY", "FROZEN", "PRODUCE", "SNACK"],
+    category: "WHERE IT ALL BEGAN",
+    items: ["NICE", "IMPERIAL", "TATE MODERN", "WAHACA"],
     level: 3,
   },
   {
-    category: "GO ___",
-    items: ["BANANAS", "FIGURE", "FISH", "STEADY"],
+    category: "ISABEL & GARETH'S STREETS/ROADS",
+    items: ["MOUNT VIEW", "DARTMOUTH PARK", "AVENUE", "SHEFFIELD"],
     level: 4,
   },
 ];

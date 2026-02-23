@@ -13,15 +13,30 @@ export const shuffleArray = <T>(array: T[]): T[] => {
 export const getWordColor = (category: 1 | 2 | 3 | 4): string => {
   switch (category) {
     case 1:
-      return "bg-yellow-300";
+      return "bg-wedding-red";
     case 2:
-      return "bg-lime-500";
+      return "bg-wedding-plum";
     case 3:
-      return "bg-blue-300";
+      return "bg-wedding-orange";
     case 4:
-      return "bg-purple-400";
+      return "bg-wedding-rose";
     default:
-      return "bg-black";
+      return "bg-wedding-aubergine";
+  }
+};
+
+export const getWordTextColor = (category: 1 | 2 | 3 | 4): string => {
+  switch (category) {
+    case 1:
+      return "text-wedding-blush";
+    case 2:
+      return "text-wedding-blush";
+    case 3:
+      return "text-wedding-aubergine";
+    case 4:
+      return "text-wedding-aubergine";
+    default:
+      return "text-wedding-blush";
   }
 };
 

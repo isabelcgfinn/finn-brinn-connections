@@ -11,6 +11,8 @@ import useGameLogic from "./_hooks/use-game-logic";
 import usePopup from "./_hooks/use-popup";
 import { SubmitResult, Word } from "./_types";
 import { getPerfection } from "./_utils";
+import PlayerModal from "./_components/modal/player-modal";
+import { supabase } from "./_lib/supabase";
 
 export default function Home() {
   const [popupState, showPopup] = usePopup();
@@ -33,6 +35,8 @@ export default function Home() {
   const [showGameWonModal, setShowGameWonModal] = useState(false);
   const [showGameLostModal, setShowGameLostModal] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [playerName, setPlayerName] = useState<string | null>(null);
+  const [startMs, setStartMs] = useState<number | null>(null);
 
   const {
     guessAnimationState,
@@ -40,6 +44,29 @@ export default function Home() {
     animateGuess,
     animateWrongGuess,
   } = useAnimation();
+
+  const TOTAL_MISTAKES = 4;
+
+  const saveResult = async (status: "win" | "loss") => {
+    if (!playerName || !startMs) return;
+
+    const mistakesUsed =
+      status === "loss"
+        ? TOTAL_MISTAKES
+        : TOTAL_MISTAKES - mistakesRemaining;
+
+    const durationMs = Date.now() - startMs;
+
+    const { error } = await supabase.from("leaderboard_entries").insert({
+      event_slug: process.env.NEXT_PUBLIC_EVENT_SLUG,
+      player_name: playerName,
+      status,
+      mistakes_used: mistakesUsed,
+      duration_ms: durationMs,
+    });
+
+    if (error) console.error(error);
+  };
 
   const handleSubmit = async () => {
     setSubmitted(true);
@@ -58,11 +85,13 @@ export default function Home() {
       case "loss":
         showPopup("Better luck next time!");
         await handleLoss();
+        await saveResult("loss");
         setShowGameLostModal(true);
         break;
       case "win":
         showPopup(getPerfection(mistakesRemaining));
         await handleWin();
+        await saveResult("win");
         setShowGameWonModal(true);
         break;
       case "incorrect":
@@ -130,11 +159,11 @@ export default function Home() {
   return (
     <>
       <div className="flex flex-col items-center w-11/12 md:w-3/4 lg:w-7/12 mx-auto mt-14">
-        <h1 className="text-black text-4xl font-semibold my-4 ml-4">
-          Connections
+        <h1 className="text-wedding-blush text-4xl font-heading my-4 ml-4">
+          Finn-Brinn Connections
         </h1>
         <hr className="mb-4 md:mb-4 w-full"></hr>
-        <h1 className="text-black mb-4">Create four groups of four!</h1>
+        <h1 className="text-wedding-blush mb-4">Create four groups of four!</h1>
         <div className="relative w-full">
           <Popup show={popupState.show} message={popupState.message} />
           <Grid
@@ -146,12 +175,20 @@ export default function Home() {
             wrongGuessAnimationState={wrongGuessAnimationState}
           />
         </div>
-        <h2 className="text-black my-4 md:my-8 mx-8">
+        <h2 className="text-wedding-blush my-4 md:my-8 mx-8">
           Mistakes Remaining:{" "}
           {mistakesRemaining > 0 ? Array(mistakesRemaining).fill("•") : ""}
         </h2>
         {renderControlButtons()}
       </div>
+      <PlayerModal
+        isOpen={!playerName}
+        onStart={(name) => {
+          setPlayerName(name);
+          setStartMs(Date.now());
+          localStorage.setItem("playerName", name);
+        }}
+      />
       <GameWonModal
         isOpen={showGameWonModal}
         onClose={() => setShowGameWonModal(false)}
