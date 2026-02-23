@@ -57,15 +57,18 @@ export default function Home() {
 
     const durationMs = Date.now() - startMs;
 
+    const playerId = localStorage.getItem("playerId");
+
     const { error } = await supabase.from("leaderboard_entries").insert({
       event_slug: process.env.NEXT_PUBLIC_EVENT_SLUG,
       player_name: playerName,
+      player_id: playerId,
       status,
       mistakes_used: mistakesUsed,
       duration_ms: durationMs,
     });
 
-    if (error) console.error(error);
+    if (error) console.error("Save result error:", error);
   };
 
   const handleSubmit = async () => {
@@ -159,7 +162,7 @@ export default function Home() {
   return (
     <>
       <div className="flex flex-col items-center w-11/12 md:w-3/4 lg:w-7/12 mx-auto mt-14">
-        <h1 className="text-wedding-blush text-4xl font-heading my-4 ml-4">
+        <h1 className="text-wedding-blush text-4xl font-heading my-4 text-center">
           Finn-Brinn Connections
         </h1>
         <hr className="mb-4 md:mb-4 w-full"></hr>
@@ -184,6 +187,10 @@ export default function Home() {
       <PlayerModal
         isOpen={!playerName}
         onStart={(name) => {
+          const id = crypto.randomUUID();
+          localStorage.setItem("playerId", id);
+          localStorage.setItem("playerName", name);
+          
           setPlayerName(name);
           setStartMs(Date.now());
           localStorage.setItem("playerName", name);

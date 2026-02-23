@@ -6,9 +6,11 @@ import { supabase } from "@/app/_lib/supabase";
 type Row = {
   id: string;
   player_name: string;
+  player_id: string | null;
   status: "win" | "loss";
   mistakes_used: number;
   duration_ms: number;
+  created_at: string;
 };
 
 const formatMs = (ms: number) => {
@@ -20,19 +22,26 @@ const formatMs = (ms: number) => {
 
 export default function Leaderboard() {
   const [rows, setRows] = useState<Row[]>([]);
-  const [playerName, setPlayerName] = useState<string | null>(null);
+  const [playerId, setPlayerId] = useState<string | null>(null);
 
   useEffect(() => {
-    // get current player name from localStorage
-    const name = localStorage.getItem("playerName");
-    setPlayerName(name);
+    const id = localStorage.getItem("playerId");
+    setPlayerId(id);
 
     (async () => {
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from("leaderboard_entries")
-        .select("id, player_name, status, mistakes_used, duration_ms")
+        .select(
+          "id, player_name, player_id, status, mistakes_used, duration_ms, created_at"
+        )
         .eq("event_slug", process.env.NEXT_PUBLIC_EVENT_SLUG)
         .limit(200);
+
+      if (error) {
+        console.error("Leaderboard fetch error:", error);
+        setRows([]);
+        return;
+      }
 
       const list = (data ?? []) as Row[];
 
@@ -49,7 +58,6 @@ export default function Leaderboard() {
 
   return (
     <div className="w-full max-w-lg">
-
       {/* Column headers */}
       <div className="flex justify-between px-4 py-2 text-wedding-aubergine font-bold border-b border-wedding-blush/40">
         <div className="w-10">#</div>
@@ -60,10 +68,8 @@ export default function Leaderboard() {
 
       {/* Rows */}
       <div>
-
         {rows.slice(0, 20).map((r, idx) => {
-
-          const isCurrentPlayer = r.player_name === playerName;
+          const isCurrentPlayer = !!r.player_id && r.player_id === playerId;
 
           return (
             <div
@@ -73,9 +79,12 @@ export default function Leaderboard() {
                 ${isCurrentPlayer ? "bg-wedding-plum/30" : ""}
               `}
             >
-
               {/* Place */}
-              <div className={`w-10 ${isCurrentPlayer ? "font-bold text-wedding-gold" : ""}`}>
+              <div
+                className={`w-10 ${
+                  isCurrentPlayer ? "font-bold text-wedding-gold" : ""
+                }`}
+              >
                 {idx + 1}
               </div>
 
@@ -88,19 +97,23 @@ export default function Leaderboard() {
               </div>
 
               {/* Mistakes */}
-              <div className="w-24 text-right text-wedding-aubergine justify-between">
+              <div className="w-24 text-right text-wedding-aubergine">
                 {r.mistakes_used}
               </div>
 
               {/* Time */}
-              <div className="w-20 text-right text-wedding-aubergine justify-between">
+              <div className="w-20 text-right text-wedding-aubergine">
                 {formatMs(r.duration_ms)}
               </div>
-
             </div>
           );
         })}
 
+        {rows.length === 0 && (
+          <div className="px-4 py-6 text-wedding-aubergine text-center">
+            No scores yet — be the first!
+          </div>
+        )}
       </div>
     </div>
   );

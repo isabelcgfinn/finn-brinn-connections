@@ -60,7 +60,6 @@ export default function Cell(props: CellProps) {
         ${bgColor}
         py-6
         rounded-md
-        break-all
         px-1
         transition
         ease-in-out
@@ -79,10 +78,9 @@ export default function Cell(props: CellProps) {
           text-center
           font-bold
           leading-tight
-          whitespace-nowrap
-          overflow-hidden
+          whitespace-normal
+          break-words
         `}
-        // Only apply inline font-size once measured; otherwise let Tailwind sizes apply.
         style={fontPx ? { fontSize: `${fontPx}px` } : undefined}
       >
         {word}
