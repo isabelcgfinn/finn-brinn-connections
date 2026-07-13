@@ -18,7 +18,7 @@ export default function GameWonModal(props: GameWonModalProps) {
   return (
     <GameModal isOpen={props.isOpen} onClose={props.onClose}>
       <div className="flex flex-col items-center justify-center px-12">
-        <h1 className="text-wedding-aubergine text-4xl font-heading my-4 ml-4">
+        <h1 className="text-wedding-aubergine text-4xl font-display my-4 ml-4">
           {props.perfection}
         </h1>
 
@@ -31,16 +31,16 @@ export default function GameWonModal(props: GameWonModalProps) {
         {showLeaderboard ? (
           <>
             {/* Sticky buttons at top */}
-            <div className="sticky top-0 z-10 bg-wedding-blush py-3 flex gap-2 justify-center border-b border-wedding-plum/30">
+            <div className="sticky top-0 z-10 bg-wedding-cream py-3 flex gap-2 justify-center border-b border-wedding-purple/30">
               <ControlButton
                 text="Back"
                 onClick={() => setShowLeaderboard(false)}
-                className="!border-wedding-plum !text-wedding-plum hover:!bg-wedding-aubergine hover:!text-wedding-blush"
+                className="!border-wedding-purple !text-wedding-purple hover:!bg-wedding-aubergine hover:!text-wedding-cream"
               />
               <ControlButton
                 text="Exit"
                 onClick={props.onClose}
-                className="!border-wedding-plum !text-wedding-plum hover:!bg-wedding-aubergine hover:!text-wedding-blush"
+                className="!border-wedding-purple !text-wedding-purple hover:!bg-wedding-aubergine hover:!text-wedding-cream"
               />
             </div>
 
@@ -56,12 +56,12 @@ export default function GameWonModal(props: GameWonModalProps) {
               <ControlButton
                 text="View leaderboard"
                 onClick={() => setShowLeaderboard(true)}
-                className="!border-wedding-plum !text-wedding-plum hover:!bg-wedding-aubergine hover:!text-wedding-blush"
+                className="!border-wedding-purple !text-wedding-purple hover:!bg-wedding-aubergine hover:!text-wedding-cream"
               />
               <ControlButton
                 text="Exit"
                 onClick={props.onClose}
-                className="!border-wedding-plum !text-wedding-plum hover:!bg-wedding-aubergine hover:!text-wedding-blush"
+                className="!border-wedding-purple !text-wedding-purple hover:!bg-wedding-aubergine hover:!text-wedding-cream"
               />
             </div>
           </>

@@ -11,7 +11,7 @@ type CellProps = {
 };
 
 export default function Cell(props: CellProps) {
-  const bgColor = props.cellValue.selected ? "bg-wedding-rose" : "bg-wedding-blush";
+  const bgColor = props.cellValue.selected ? "bg-wedding-pink" : "bg-wedding-cream";
   const textColor = "text-wedding-aubergine";
 
   const handleClick = () => props.onClick(props.cellValue);
@@ -116,7 +116,9 @@ export default function Cell(props: CellProps) {
         className={`
           ${textColor}
           text-center
+          font-condensed
           font-bold
+          uppercase
           leading-tight
         `}
         style={{
@@ -138,7 +140,7 @@ export default function Cell(props: CellProps) {
       {/* Hidden measurer */}
       <span
         ref={measureRef}
-        className="absolute left-[-9999px] top-[-9999px] font-bold leading-tight"
+        className="absolute left-[-9999px] top-[-9999px] font-condensed font-bold uppercase leading-tight"
         aria-hidden="true"
         style={{
           wordBreak: "keep-all",

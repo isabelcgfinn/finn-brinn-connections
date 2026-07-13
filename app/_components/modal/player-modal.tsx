@@ -13,7 +13,7 @@ export default function PlayerModal(props: {
   return (
     <GameModal isOpen={props.isOpen} onClose={() => {}}>
       <div className="flex flex-col items-center justify-center px-10 gap-4">
-        <h1 className="font-heading text-2xl text-wedding-aubergine text-center whitespace-nowrap">
+        <h1 className="font-display text-2xl text-wedding-aubergine text-center whitespace-nowrap">
           Enter your name
         </h1>
 
@@ -22,7 +22,7 @@ export default function PlayerModal(props: {
         </p>
 
         <input
-          className="w-full max-w-sm rounded-md px-4 py-3 bg-wedding-blush text-wedding-aubergine outline-none text-center"
+          className="w-full max-w-sm rounded-md px-4 py-3 bg-wedding-cream text-wedding-aubergine outline-none text-center"
           placeholder="Name / team"
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -32,7 +32,7 @@ export default function PlayerModal(props: {
           text="Start"
           onClick={() => props.onStart(name.trim() || "Anonymous")}
           unclickable={name.trim().length === 0}
-          className="!border-wedding-plum !text-wedding-plum hover:!bg-wedding-aubergine hover:!text-wedding-blush"
+          className="!border-wedding-purple !text-wedding-purple hover:!bg-wedding-aubergine hover:!text-wedding-cream"
         />
       </div>
     </GameModal>

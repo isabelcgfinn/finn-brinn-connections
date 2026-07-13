@@ -15,11 +15,11 @@ export const getWordColor = (category: 1 | 2 | 3 | 4): string => {
     case 1:
       return "bg-wedding-red";
     case 2:
-      return "bg-wedding-plum";
+      return "bg-wedding-purple";
     case 3:
       return "bg-wedding-orange";
     case 4:
-      return "bg-wedding-rose";
+      return "bg-wedding-pink";
     default:
       return "bg-wedding-aubergine";
   }
@@ -28,15 +28,15 @@ export const getWordColor = (category: 1 | 2 | 3 | 4): string => {
 export const getWordTextColor = (category: 1 | 2 | 3 | 4): string => {
   switch (category) {
     case 1:
-      return "text-wedding-blush";
+      return "text-wedding-cream";
     case 2:
-      return "text-wedding-blush";
+      return "text-wedding-cream";
     case 3:
       return "text-wedding-aubergine";
     case 4:
       return "text-wedding-aubergine";
     default:
-      return "text-wedding-blush";
+      return "text-wedding-cream";
   }
 };
 

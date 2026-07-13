@@ -17,7 +17,7 @@ export default function GameLostModal(props: GameLostModalProps) {
   return (
     <GameModal isOpen={props.isOpen} onClose={props.onClose}>
       <div className="flex flex-col items-center justify-center px-12">
-        <h1 className="text-wedding-aubergine text-3xl font-black my-4 ml-4">
+        <h1 className="text-wedding-aubergine text-3xl font-display my-4 ml-4">
           {"Next time!"}
         </h1>
 
@@ -30,12 +30,12 @@ export default function GameLostModal(props: GameLostModalProps) {
               <ControlButton
                 text="Back"
                 onClick={() => setShowLeaderboard(false)}
-                className="!border-wedding-plum !text-wedding-plum hover:!bg-wedding-aubergine hover:!text-wedding-blush"
+                className="!border-wedding-purple !text-wedding-purple hover:!bg-wedding-aubergine hover:!text-wedding-cream"
               />
               <ControlButton
                 text="Exit"
                 onClick={props.onClose}
-                className="!border-wedding-plum !text-wedding-plum hover:!bg-wedding-aubergine hover:!text-wedding-blush"
+                className="!border-wedding-purple !text-wedding-purple hover:!bg-wedding-aubergine hover:!text-wedding-cream"
               />
             </div>
           </>
@@ -46,12 +46,12 @@ export default function GameLostModal(props: GameLostModalProps) {
               <ControlButton
                 text="View leaderboard"
                 onClick={() => setShowLeaderboard(true)}
-                className="!border-wedding-plum !text-wedding-plum hover:!bg-wedding-aubergine hover:!text-wedding-blush"
+                className="!border-wedding-purple !text-wedding-purple hover:!bg-wedding-aubergine hover:!text-wedding-cream"
               />
               <ControlButton
                 text="Exit"
                 onClick={props.onClose}
-                className="!border-wedding-plum !text-wedding-plum hover:!bg-wedding-aubergine hover:!text-wedding-blush"
+                className="!border-wedding-purple !text-wedding-purple hover:!bg-wedding-aubergine hover:!text-wedding-cream"
               />
             </div>
           </>

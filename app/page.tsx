@@ -162,11 +162,45 @@ export default function Home() {
   return (
     <>
       <div className="flex flex-col items-center w-11/12 md:w-3/4 lg:w-7/12 mx-auto mt-14">
-        <h1 className="text-wedding-blush text-4xl font-heading my-4 text-center">
-          Finn-Brinn Connections
-        </h1>
-        <hr className="mb-4 md:mb-4 w-full"></hr>
-        <h1 className="text-wedding-blush mb-4">Create four groups of four!</h1>
+        <div className="flex flex-nowrap items-center justify-center gap-2 md:gap-5 my-4 w-full">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/branding/initial-g.png"
+            alt=""
+            aria-hidden="true"
+            className="w-8 h-8 md:w-14 md:h-14 shrink-0"
+          />
+          <h1 className="text-wedding-cream font-display text-center whitespace-nowrap text-[clamp(1.15rem,6vw,2.25rem)]">
+            Finn-Brinn Connections
+          </h1>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/branding/initial-i.png"
+            alt=""
+            aria-hidden="true"
+            className="w-8 h-8 md:w-14 md:h-14 shrink-0"
+          />
+        </div>
+        <div className="brand-divider mb-4 w-full" role="presentation" />
+        <div className="flex items-center justify-center gap-3 mb-4">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/branding/daffodil-white.png"
+            alt=""
+            aria-hidden="true"
+            className="w-6 h-6 shrink-0"
+          />
+          <h2 className="text-wedding-cream font-condensed uppercase tracking-wide text-lg">
+            Create four groups of four!
+          </h2>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/branding/daffodil-white.png"
+            alt=""
+            aria-hidden="true"
+            className="w-6 h-6 shrink-0"
+          />
+        </div>
         <div className="relative w-full">
           <Popup show={popupState.show} message={popupState.message} />
           <Grid
@@ -178,7 +212,7 @@ export default function Home() {
             wrongGuessAnimationState={wrongGuessAnimationState}
           />
         </div>
-        <h2 className="text-wedding-blush my-4 md:my-8 mx-8">
+        <h2 className="text-wedding-cream my-4 md:my-8 mx-8">
           Mistakes Remaining:{" "}
           {mistakesRemaining > 0 ? Array(mistakesRemaining).fill("•") : ""}
         </h2>

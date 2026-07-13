@@ -9,12 +9,12 @@ export default function ControlButton(props: {
   // TEXT colour
   const textColor = props.unclickable
     ? "text-wedding-aubergine"
-    : "text-wedding-gold";
+    : "text-wedding-yellow";
 
   // BORDER colour
   const borderColor = props.unclickable
     ? "border-wedding-aubergine"
-    : "border-wedding-gold";
+    : "border-wedding-yellow";
 
   return (
     <button
@@ -29,9 +29,9 @@ export default function ControlButton(props: {
         text-l
         transition-colors duration-200
         ${!props.unclickable ? `
-          hover:bg-wedding-gold
-          hover:text-wedding-redDeep
-          hover:border-wedding-gold
+          hover:bg-wedding-yellow
+          hover:text-wedding-aubergine
+          hover:border-wedding-yellow
         ` : ""}
         ${click}
         ${props.className ?? ""}

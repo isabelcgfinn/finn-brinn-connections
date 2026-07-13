@@ -20,46 +20,53 @@ const formatMs = (ms: number) => {
   return `${m}:${String(s).padStart(2, "0")}`;
 };
 
+type LoadState = "loading" | "error" | "ready";
+
 export default function Leaderboard() {
   const [rows, setRows] = useState<Row[]>([]);
   const [playerId, setPlayerId] = useState<string | null>(null);
+  const [loadState, setLoadState] = useState<LoadState>("loading");
 
   useEffect(() => {
     const id = localStorage.getItem("playerId");
     setPlayerId(id);
 
     (async () => {
-      const { data, error } = await supabase
-        .from("leaderboard_entries")
-        .select(
-          "id, player_name, player_id, status, mistakes_used, duration_ms, created_at"
-        )
-        .eq("event_slug", process.env.NEXT_PUBLIC_EVENT_SLUG)
-        .limit(200);
+      try {
+        const { data, error } = await supabase
+          .from("leaderboard_entries")
+          .select(
+            "id, player_name, player_id, status, mistakes_used, duration_ms, created_at"
+          )
+          .eq("event_slug", process.env.NEXT_PUBLIC_EVENT_SLUG)
+          .limit(200);
 
-      if (error) {
-        console.error("Leaderboard fetch error:", error);
-        setRows([]);
-        return;
+        if (error) throw error;
+
+        const list = (data ?? []) as Row[];
+
+        list.sort((a, b) => {
+          if (a.status !== b.status) return a.status === "win" ? -1 : 1;
+          if (a.mistakes_used !== b.mistakes_used)
+            return a.mistakes_used - b.mistakes_used;
+          return a.duration_ms - b.duration_ms;
+        });
+
+        setRows(list);
+        setLoadState("ready");
+      } catch (err) {
+        // Network failure (bad/missing Supabase config) rejects rather than
+        // returning an error object, so catch both here.
+        console.error("Leaderboard fetch error:", err);
+        setLoadState("error");
       }
-
-      const list = (data ?? []) as Row[];
-
-      list.sort((a, b) => {
-        if (a.status !== b.status) return a.status === "win" ? -1 : 1;
-        if (a.mistakes_used !== b.mistakes_used)
-          return a.mistakes_used - b.mistakes_used;
-        return a.duration_ms - b.duration_ms;
-      });
-
-      setRows(list);
     })();
   }, []);
 
   return (
     <div className="w-full max-w-lg">
       {/* Column headers */}
-      <div className="flex justify-between px-4 py-2 text-wedding-aubergine font-bold border-b border-wedding-blush/40">
+      <div className="flex justify-between px-4 py-2 text-wedding-aubergine font-bold border-b border-wedding-cream/40">
         <div className="w-10">#</div>
         <div className="flex-1">Name</div>
         <div className="w-24 text-right">Mistakes</div>
@@ -75,14 +82,14 @@ export default function Leaderboard() {
             <div
               key={r.id}
               className={`
-                flex justify-between px-4 py-3 border-b border-wedding-blush/20
-                ${isCurrentPlayer ? "bg-wedding-plum/30" : ""}
+                flex justify-between px-4 py-3 border-b border-wedding-cream/20
+                ${isCurrentPlayer ? "bg-wedding-purple/30" : ""}
               `}
             >
               {/* Place */}
               <div
                 className={`w-10 ${
-                  isCurrentPlayer ? "font-bold text-wedding-gold" : ""
+                  isCurrentPlayer ? "font-bold text-wedding-yellow" : ""
                 }`}
               >
                 {idx + 1}
@@ -92,7 +99,7 @@ export default function Leaderboard() {
               <div className="flex-1 text-wedding-aubergine">
                 {r.player_name}
                 {r.status === "loss" && (
-                  <span className="text-wedding-rose text-xs ml-2">(DNF)</span>
+                  <span className="text-wedding-pink text-xs ml-2">(DNF)</span>
                 )}
               </div>
 
@@ -109,7 +116,20 @@ export default function Leaderboard() {
           );
         })}
 
-        {rows.length === 0 && (
+        {loadState === "loading" && (
+          <div className="px-4 py-6 text-wedding-aubergine text-center">
+            Loading scores…
+          </div>
+        )}
+
+        {loadState === "error" && (
+          <div className="px-4 py-6 text-wedding-aubergine text-center">
+            Couldn’t load the leaderboard. Please check your connection and try
+            again.
+          </div>
+        )}
+
+        {loadState === "ready" && rows.length === 0 && (
           <div className="px-4 py-6 text-wedding-aubergine text-center">
             No scores yet — be the first!
           </div>
