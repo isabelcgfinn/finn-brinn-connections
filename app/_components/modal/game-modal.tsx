@@ -42,7 +42,7 @@ export default function GameModal(props: GameModalProps) {
       className={`
         backdrop:bg-black backdrop:opacity-75 
         rounded-md p-8
-        bg-wedding-blush
+        bg-wedding-cream
       `}
     >
       {props.children}

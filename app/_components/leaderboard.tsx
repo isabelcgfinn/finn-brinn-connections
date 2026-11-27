@@ -1,17 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/app/_lib/supabase";
-
-type Row = {
-  id: string;
-  player_name: string;
-  player_id: string | null;
-  status: "win" | "loss";
-  mistakes_used: number;
-  duration_ms: number;
-  created_at: string;
-};
+import type { LeaderboardEntry } from "@/app/api/leaderboard/route";
 
 const formatMs = (ms: number) => {
   const totalSeconds = Math.floor(ms / 1000);
@@ -20,46 +10,37 @@ const formatMs = (ms: number) => {
   return `${m}:${String(s).padStart(2, "0")}`;
 };
 
+type LoadState = "loading" | "error" | "ready";
+
 export default function Leaderboard() {
-  const [rows, setRows] = useState<Row[]>([]);
-  const [playerId, setPlayerId] = useState<string | null>(null);
+  const [rows, setRows] = useState<LeaderboardEntry[]>([]);
+  const [loadState, setLoadState] = useState<LoadState>("loading");
 
   useEffect(() => {
-    const id = localStorage.getItem("playerId");
-    setPlayerId(id);
+    const playerId = localStorage.getItem("playerId") ?? "";
 
     (async () => {
-      const { data, error } = await supabase
-        .from("leaderboard_entries")
-        .select(
-          "id, player_name, player_id, status, mistakes_used, duration_ms, created_at"
-        )
-        .eq("event_slug", process.env.NEXT_PUBLIC_EVENT_SLUG)
-        .limit(200);
-
-      if (error) {
-        console.error("Leaderboard fetch error:", error);
-        setRows([]);
-        return;
+      try {
+        // Sorting and the "is this me?" check both happen on the server.
+        const res = await fetch(
+          `/api/leaderboard?playerId=${encodeURIComponent(playerId)}`,
+          { cache: "no-store" }
+        );
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const { entries } = (await res.json()) as { entries: LeaderboardEntry[] };
+        setRows(entries);
+        setLoadState("ready");
+      } catch (err) {
+        console.error("Leaderboard fetch error:", err);
+        setLoadState("error");
       }
-
-      const list = (data ?? []) as Row[];
-
-      list.sort((a, b) => {
-        if (a.status !== b.status) return a.status === "win" ? -1 : 1;
-        if (a.mistakes_used !== b.mistakes_used)
-          return a.mistakes_used - b.mistakes_used;
-        return a.duration_ms - b.duration_ms;
-      });
-
-      setRows(list);
     })();
   }, []);
 
   return (
-    <div className="w-full max-w-lg">
+    <div className="w-full max-w-lg text-wedding-aubergine">
       {/* Column headers */}
-      <div className="flex justify-between px-4 py-2 text-wedding-aubergine font-bold border-b border-wedding-blush/40">
+      <div className="flex justify-between px-4 py-2 font-bold border-b border-wedding-aubergine/40">
         <div className="w-10">#</div>
         <div className="flex-1">Name</div>
         <div className="w-24 text-right">Mistakes</div>
@@ -68,49 +49,40 @@ export default function Leaderboard() {
 
       {/* Rows */}
       <div>
-        {rows.slice(0, 20).map((r, idx) => {
-          const isCurrentPlayer = !!r.player_id && r.player_id === playerId;
-
-          return (
-            <div
-              key={r.id}
-              className={`
-                flex justify-between px-4 py-3 border-b border-wedding-blush/20
-                ${isCurrentPlayer ? "bg-wedding-plum/30" : ""}
-              `}
-            >
-              {/* Place */}
-              <div
-                className={`w-10 ${
-                  isCurrentPlayer ? "font-bold text-wedding-gold" : ""
-                }`}
-              >
-                {idx + 1}
-              </div>
-
-              {/* Name */}
-              <div className="flex-1 text-wedding-aubergine">
-                {r.player_name}
-                {r.status === "loss" && (
-                  <span className="text-wedding-rose text-xs ml-2">(DNF)</span>
-                )}
-              </div>
-
-              {/* Mistakes */}
-              <div className="w-24 text-right text-wedding-aubergine">
-                {r.mistakes_used}
-              </div>
-
-              {/* Time */}
-              <div className="w-20 text-right text-wedding-aubergine">
-                {formatMs(r.duration_ms)}
-              </div>
+        {rows.map((r, idx) => (
+          <div
+            key={r.id}
+            className={`
+              flex justify-between px-4 py-3 border-b border-wedding-aubergine/15
+              ${r.is_you ? "bg-wedding-lilac font-bold" : ""}
+            `}
+          >
+            <div className="w-10">{idx + 1}</div>
+            <div className="flex-1">
+              {r.player_name}
+              {r.is_you && <span className="text-xs ml-2">(you)</span>}
+              {r.status === "loss" && (
+                <span className="text-wedding-purple text-xs ml-2">(DNF)</span>
+              )}
             </div>
-          );
-        })}
+            <div className="w-24 text-right">{r.mistakes_used}</div>
+            <div className="w-20 text-right">{formatMs(r.duration_ms)}</div>
+          </div>
+        ))}
 
-        {rows.length === 0 && (
-          <div className="px-4 py-6 text-wedding-aubergine text-center">
+        {loadState === "loading" && (
+          <div className="px-4 py-6 text-center">Loading scores…</div>
+        )}
+
+        {loadState === "error" && (
+          <div className="px-4 py-6 text-center">
+            Couldn’t load the leaderboard. Please check your connection and try
+            again.
+          </div>
+        )}
+
+        {loadState === "ready" && rows.length === 0 && (
+          <div className="px-4 py-6 text-center">
             No scores yet — be the first!
           </div>
         )}

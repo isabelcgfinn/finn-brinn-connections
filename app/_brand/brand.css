@@ -1,0 +1,58 @@
+/* ------------------------------------------------------------------
+   Isabel & Gareth — Wedding brand tokens (CSS custom properties)
+   Source: Rachel Doran, "Isabel & Gareth Wedding Stationary Brand
+   Guidelines" (May 2026). Exact hex values from the Colour Palette.
+   Import this once (e.g. at the top of globals.css) to expose the
+   variables to the whole app.
+   ------------------------------------------------------------------ */
+
+:root {
+  /* Palette — primary */
+  --brand-red: #bf1326;
+  --brand-purple: #631853;
+
+  /* Palette — base */
+  --brand-aubergine: #47153c;
+  --brand-cream: #fbf2e7;
+
+  /* Palette — secondary */
+  --brand-orange: #ef733a;
+  --brand-pink: #e38296;
+
+  /* Palette — tertiary */
+  --brand-lilac: #e3c5ff;
+  --brand-yellow: #fcd59f;
+  --brand-pastel-pink: #ffdfe1;
+
+  /* Type families (wired up to next/font variables in layout.tsx) */
+  --brand-font-display: var(--font-acma), "Abril Fatface", "DM Serif Display", serif;
+  --brand-font-body: var(--font-barlow), "Lato", system-ui, sans-serif;
+  --brand-font-condensed: var(--font-barlow-condensed), "Oswald", system-ui, sans-serif;
+}
+
+/* ------------------------------------------------------------------
+   Approved background + text pairings (guidelines p.7).
+   Apply a single class to guarantee an on-brand, legible combination
+   instead of hand-picking bg/text colours each time.
+   ------------------------------------------------------------------ */
+.pair-red        { background-color: var(--brand-red);         color: var(--brand-cream); }
+.pair-purple     { background-color: var(--brand-purple);      color: var(--brand-cream); }
+.pair-aubergine  { background-color: var(--brand-aubergine);   color: var(--brand-cream); }
+.pair-orange     { background-color: var(--brand-orange);      color: var(--brand-aubergine); }
+.pair-pink       { background-color: var(--brand-pink);        color: var(--brand-aubergine); }
+.pair-lilac      { background-color: var(--brand-lilac);       color: var(--brand-aubergine); }
+.pair-pastelPink { background-color: var(--brand-pastel-pink); color: var(--brand-aubergine); }
+.pair-cream      { background-color: var(--brand-cream);       color: var(--brand-aubergine); }
+
+/* ------------------------------------------------------------------
+   Decorative checkerboard divider (guidelines: patterned borders).
+   Uses the supplied hand-drawn checkerboard, tiled horizontally.
+   ------------------------------------------------------------------ */
+.brand-divider {
+  height: 22px;
+  width: 100%;
+  background-image: url("/branding/checkerboard-strip.png");
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  background-position: center;
+}

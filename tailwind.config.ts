@@ -9,19 +9,25 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        body: ["var(--font-encode-sans)"],
-        heading: ["var(--font-gloock)"],
+        // Primary display face — PP Acma Black (names, headings, key moments)
+        display: ["var(--font-acma)", "Abril Fatface", "DM Serif Display", "serif"],
+        // Core body copy — Barlow
+        body: ["var(--font-barlow)", "Lato", "system-ui", "sans-serif"],
+        // Supporting / space-constrained text — Barlow Condensed
+        condensed: ["var(--font-barlow-condensed)", "Oswald", "system-ui", "sans-serif"],
       },
       colors: {
+        // Exact palette from the brand guidelines (Rachel Doran, May 2026)
         wedding: {
-          red: "#B11226",
-          plum: "#5F174E",
-          orange: "#EF733A",
-          aubergine: "#2D1127",
-          rose: "#DE7F93",
-          redDeep: "#7E170F",
-          blush: "#F8D4D4",
-          gold: "#F5C473"
+          red: "#BF1326", // primary
+          purple: "#631853", // primary
+          aubergine: "#47153C", // base — text on light, outlines, backgrounds
+          cream: "#FBF2E7", // base — text on dark, accents, space
+          orange: "#EF733A", // secondary
+          pink: "#E38296", // secondary
+          lilac: "#E3C5FF", // tertiary
+          yellow: "#FCD59F", // tertiary
+          pastelPink: "#FFDFE1", // tertiary — light background option
         },
       },
       backgroundImage: {

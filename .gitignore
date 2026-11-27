@@ -37,3 +37,10 @@ next-env.d.ts
 
 # vscode
 /.vscode
+
+# claude code local settings (machine-specific permissions)
+.claude/settings.local.json
+
+# raw brand source assets (~128MB of PDFs/PNGs) — kept out of git.
+# The small assets the app needs are copied into app/_brand/ and public/branding/.
+/branding

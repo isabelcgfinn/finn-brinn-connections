@@ -1,25 +1,12 @@
+@import "./_brand/brand.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
-body {
-  background-color: #7E170F !important;
-  color: #F8D4D4;
-}
+/* Background and text colour are set once, on <body> in layout.tsx
+   (bg-wedding-aubergine / text-wedding-cream) — an approved pairing.
+   Nothing here overrides them, so the theme stays easy to manage. */
 
 @layer utilities {
   .text-balance {
