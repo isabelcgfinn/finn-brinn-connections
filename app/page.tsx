@@ -12,7 +12,6 @@ import usePopup from "./_hooks/use-popup";
 import { SubmitResult, Word } from "./_types";
 import { getPerfection } from "./_utils";
 import PlayerModal from "./_components/modal/player-modal";
-import { supabase } from "./_lib/supabase";
 
 export default function Home() {
   const [popupState, showPopup] = usePopup();
@@ -59,16 +58,22 @@ export default function Home() {
 
     const playerId = localStorage.getItem("playerId");
 
-    const { error } = await supabase.from("leaderboard_entries").insert({
-      event_slug: process.env.NEXT_PUBLIC_EVENT_SLUG,
-      player_name: playerName,
-      player_id: playerId,
-      status,
-      mistakes_used: mistakesUsed,
-      duration_ms: durationMs,
-    });
-
-    if (error) console.error("Save result error:", error);
+    try {
+      const res = await fetch("/api/leaderboard", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          player_name: playerName,
+          player_id: playerId,
+          status,
+          mistakes_used: mistakesUsed,
+          duration_ms: durationMs,
+        }),
+      });
+      if (!res.ok) console.error("Save result error:", await res.text());
+    } catch (err) {
+      console.error("Save result error:", err);
+    }
   };
 
   const handleSubmit = async () => {
