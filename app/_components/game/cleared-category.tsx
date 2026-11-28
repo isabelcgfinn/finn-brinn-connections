@@ -9,11 +9,13 @@ export default function ClearedCategory(props: { category: Category }) {
   const concatItems = props.category.items.join(", ");
 
   return (
-    <div className={`flex flex-col items-center col-span-4 py-4 rounded-md ${bgColor}`}>
-      <h1 className={`${textColor} font-bold text-md md:text-lg`}>
+    <div className={`flex flex-col items-center col-span-4 py-4 px-3 rounded-md ${bgColor}`}>
+      <h1
+        className={`${textColor} font-bold text-center text-balance leading-tight text-[15px] md:text-[17px]`}
+      >
         {props.category.category}
       </h1>
-      <h2 className={`${textColor} text-sm md:text-md text-center mx-2`}>
+      <h2 className={`${textColor} text-sm text-center mt-1`}>
         {concatItems}
       </h2>
     </div>

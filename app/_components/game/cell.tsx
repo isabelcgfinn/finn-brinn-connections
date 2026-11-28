@@ -101,7 +101,8 @@ export default function Cell(props: CellProps) {
       ref={buttonRef}
       className={`
         ${bgColor}
-        py-6
+        aspect-square
+        flex items-center justify-center
         rounded-md
         px-1
         transition

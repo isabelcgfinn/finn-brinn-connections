@@ -4,36 +4,22 @@ export default function ControlButton(props: {
   unclickable?: boolean;
   className?: string;
 }) {
-  const click = props.unclickable ? "pointer-events-none" : "";
-
-  // TEXT colour
-  const textColor = props.unclickable
-    ? "text-wedding-aubergine"
-    : "text-wedding-yellow";
-
-  // BORDER colour
-  const borderColor = props.unclickable
-    ? "border-wedding-aubergine"
-    : "border-wedding-yellow";
+  // Unavailable buttons stay visible in the brand yellow, just faded, so the
+  // player can see what will become possible. (Turning them aubergine made
+  // them vanish into the aubergine page.)
+  const stateClasses = props.unclickable
+    ? "text-wedding-yellow/40 border-wedding-yellow/40 cursor-not-allowed"
+    : `text-wedding-yellow border-wedding-yellow
+       hover:bg-wedding-yellow hover:text-wedding-aubergine`;
 
   return (
     <button
+      type="button"
+      disabled={props.unclickable}
       className={`
-        ${borderColor}
-        border
-        rounded-full
-        ${textColor}
-        font-medium
-        py-3
-        px-4
-        text-l
+        border rounded-full font-medium py-3 px-4 text-l
         transition-colors duration-200
-        ${!props.unclickable ? `
-          hover:bg-wedding-yellow
-          hover:text-wedding-aubergine
-          hover:border-wedding-yellow
-        ` : ""}
-        ${click}
+        ${stateClasses}
         ${props.className ?? ""}
       `}
       onClick={props.onClick}
