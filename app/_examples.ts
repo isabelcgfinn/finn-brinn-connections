@@ -1,24 +1,31 @@
 import { Category } from "./_types";
 
+// `level` only sets the colour of a solved group (see getWordColor in
+// _utils.ts): 1 red, 2 purple, 3 orange, 4 pink. The game has no notion of
+// difficulty, so the Hard/Medium/Easy labels are recorded here as comments.
 export const categories: Category[] = [
   {
-    category: "GARETH & ISABEL'S TEAM MASCOTS",
-    items: ["T-REX", "SWAN", "RED DRAGON", "BUCKET HAT"],
-    level: 1,
-  },
-  {
-    category: "GARETH'S PET NAMES FOR ISABEL",
-    items: ["POTATO", "SAUSAGE", "SHITHEAD", "LOBSTER"],
+    // Hard · Purple
+    category: "STREETS WE'VE CALLED HOME, MINUS THE SUFFIX",
+    items: ["DARTMOUTH PARK", "AVENUE", "SHEFFIELD", "MOUNT VIEW"],
     level: 2,
   },
   {
-    category: "WHERE IT ALL BEGAN",
-    items: ["NICE", "IMPERIAL", "TATE MODERN", "WAHACA"],
+    // Medium · Red
+    category: "IMPERIAL UNITS",
+    items: ["PINT", "POUND", "ACRE", "YARD"],
+    level: 1,
+  },
+  {
+    // Easy · Orange
+    category: "OUR BIG TRIPS",
+    items: ["VIETNAM", "UTAH", "KENYA", "MOROCCO"],
     level: 3,
   },
   {
-    category: "ISABEL & GARETH'S STREETS/ROADS",
-    items: ["MOUNT VIEW", "DARTMOUTH PARK", "AVENUE", "SHEFFIELD"],
+    // Easy · Pink
+    category: "OUR SPORTING ALLEGIANCES",
+    items: ["WALES", "SWANSEA", "ARSENAL", "TEAM GB"],
     level: 4,
   },
 ];
