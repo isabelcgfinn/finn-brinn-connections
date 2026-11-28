@@ -5,7 +5,7 @@ import ControlButton from "./_components/button/control-button";
 import Grid from "./_components/game/grid";
 import GameLostModal from "./_components/modal/game-lost-modal";
 import GameWonModal from "./_components/modal/game-won-modal";
-import Popup from "./_components/popup";
+import StatusLine from "./_components/status-line";
 import useAnimation from "./_hooks/use-animation";
 import useGameLogic from "./_hooks/use-game-logic";
 import usePopup from "./_hooks/use-popup";
@@ -166,7 +166,8 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex flex-col items-center w-11/12 md:w-3/4 lg:w-7/12 mx-auto mt-14">
+      {/* max-w-lg keeps the square tiles a sensible size on wide screens */}
+      <div className="flex flex-col items-center w-11/12 md:w-3/4 lg:w-7/12 max-w-lg mx-auto mt-14">
         <div className="flex flex-nowrap items-center justify-center gap-2 md:gap-5 my-4 w-full">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -187,27 +188,8 @@ export default function Home() {
           />
         </div>
         <div className="brand-divider mb-4 w-full" role="presentation" />
-        <div className="flex items-center justify-center gap-3 mb-4">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/branding/daffodil-white.png"
-            alt=""
-            aria-hidden="true"
-            className="w-6 h-6 shrink-0"
-          />
-          <h2 className="text-wedding-cream font-condensed uppercase tracking-wide text-lg">
-            Create four groups of four!
-          </h2>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/branding/daffodil-white.png"
-            alt=""
-            aria-hidden="true"
-            className="w-6 h-6 shrink-0"
-          />
-        </div>
-        <div className="relative w-full">
-          <Popup show={popupState.show} message={popupState.message} />
+        <StatusLine message={popupState.show ? popupState.message : null} />
+        <div className="w-full">
           <Grid
             words={gameWords}
             selectedWords={selectedWords}
